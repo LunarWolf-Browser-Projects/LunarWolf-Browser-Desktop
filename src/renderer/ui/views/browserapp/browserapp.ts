@@ -100,6 +100,12 @@ export const selectBrowserView = (id: number) => {
             addressBar.value = activeTab.url; // Set the address bar to the active tab's URL
         }
     }
+
+    // Fix: Update the activeTabId for the currently selected tab using dataset
+    const browserContainerElement = document.querySelector('#browser-container') as HTMLDivElement;
+    if (browserContainerElement) {
+        browserContainerElement.dataset.activeTabId = id.toString();
+    }
 };
 
 export const closeBrowserView = (id: number) => {
@@ -120,3 +126,4 @@ export const updateBrowserURL = (id: number, url: string) => {
         }
     }
 };
+

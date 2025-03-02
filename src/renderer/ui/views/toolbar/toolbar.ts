@@ -16,7 +16,7 @@ export const createToolbar = () => {
     backIcon.src = backIconSrc; // Use imported SVG source for the icon
     backButton.appendChild(backIcon);
     backButton.onclick = () => {
-        const activeWebview = document.querySelector('webview');
+        const activeWebview = getActiveWebview();
         if (activeWebview) (activeWebview as Electron.WebviewTag).goBack();
     };
 
@@ -27,7 +27,7 @@ export const createToolbar = () => {
     forwardIcon.src = forwardIconSrc; // Use imported SVG source for the icon
     forwardButton.appendChild(forwardIcon);
     forwardButton.onclick = () => {
-        const activeWebview = document.querySelector('webview');
+        const activeWebview = getActiveWebview();
         if (activeWebview) (activeWebview as Electron.WebviewTag).goForward();
     };
 
@@ -38,7 +38,7 @@ export const createToolbar = () => {
     reloadIcon.src = reloadIconSrc; // Use imported SVG source for the icon
     reloadButton.appendChild(reloadIcon);
     reloadButton.onclick = () => {
-        const activeWebview = document.querySelector('webview');
+        const activeWebview = getActiveWebview();
         if (activeWebview) (activeWebview as Electron.WebviewTag).reload();
     };
 
@@ -49,24 +49,28 @@ export const createToolbar = () => {
     addressBar.placeholder = 'Enter your URL here...';
     addressBar.onkeypress = (event) => {
         if (event.key === 'Enter') {
-            const activeWebview = document.querySelector('webview');
+            const activeWebview = getActiveWebview();
             if (activeWebview) {
-                const url = addressBar.value.startsWith('http') ? addressBar.value : `https://${addressBar.value}`;
-                (activeWebview as Electron.WebviewTag).setAttribute('src', url);
+                let url = addressBar.value;
+                if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                    url = `https://${url}`; // Ensure the URL has the correct protocol
+                }
+                // Use the setURL method to load the new URL
+                (activeWebview as Electron.WebviewTag).loadURL(url);
             }
         }
     };
 
     // Update address bar with the current URL of the active webview
     const updateAddressBar = () => {
-        const activeWebview = document.querySelector('webview');
+        const activeWebview = getActiveWebview();
         if (activeWebview) {
             addressBar.value = (activeWebview as Electron.WebviewTag).getURL();
         }
     };
 
     // Listen for URL changes in the active webview
-    const activeWebview = document.querySelector('webview');
+    const activeWebview = getActiveWebview();
     if (activeWebview) {
         (activeWebview as Electron.WebviewTag).addEventListener('did-navigate', updateAddressBar);
     }
@@ -78,4 +82,14 @@ export const createToolbar = () => {
     toolbar.appendChild(addressBar);
 
     return toolbar;
+};
+
+// Helper function to get the currently active webview based on the selected tab
+const getActiveWebview = () => {
+    const activeTabId = (document.querySelector('#browser-container') as any)?.dataset.activeTabId;
+    if (activeTabId) {
+        const activeTab = document.querySelector(`#webview-container-${activeTabId}`) as HTMLDivElement;
+        return activeTab?.querySelector('webview');
+    }
+    return null;
 };
