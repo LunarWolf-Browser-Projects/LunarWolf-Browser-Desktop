@@ -1,0 +1,49 @@
+{
+  "appId": "com.lunarwolf-browser.app",
+  "productName": "LunarWolf",
+  "copyright": "MIT",
+  "files": [
+    "build/**/*",
+    "app.html",
+    {
+      "from": "src/renderer/ui/views/tabview",
+      "to": "renderer/ui/views/tabview",
+      "filter": ["tabbarstyle.css"]
+    },
+    "preload/**/*",
+    "renderer.js",
+    "static/**/*",
+    "node_modules/**/*"
+  ],
+  "directories": {
+    "output": "dist"
+  },
+  "win": {
+    "target": [
+      "nsis",
+      "zip"
+    ],
+    "icon": "static/app_icon/windows/app_icon.ico"
+  },
+  "mac": {
+    "target": [
+      "dmg",
+      "zip"
+    ],
+    "icon": "static/app_icon/mac/app_icon.icns"
+  },
+  "linux": {
+    "target": [
+      "AppImage",
+      "deb",
+      "tar.gz"
+    ],
+    "icon": "static/app_icon/linux/app_icon.png",
+    "category": "Utility",
+    "maintainer": "LunarWolf Browser Devs",
+    "description": "LunarWolf-browser"
+  },
+  "extraResources": [
+    "assets/*"
+  ]
+}

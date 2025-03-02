@@ -1,0 +1,233 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2020 Eryk Rakowski
+ *
+/*
+ * MIT License
+ *
+ * Copyright (c) 2025 LunarWolf Browser Devs.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ *
+ * NOTE: The top tabbed UI in this project was inspired by the Ecobrowser project by [Author/Person Name].
+ * If you would like proof that their repository includes the MIT License, you can check the "proof" folder
+ * located at "src/renderer/ui/views/tabview/license-proof", which contains a screenshot showing when the repo had
+ * the license (in case they remove it).
+ *
+ * NOTE: This project and the Ecobrowser project are quite different. This project is an actual working browser, while
+ * theirs is more of a concept project, as of the time of writing.
+ *
+ * Modified Version Changes:
+ * - Changed the title bar color.
+ * - Added window control buttons (minimize, maximize, close).
+ * - Changed some class names and adjusted some borders.
+ * - Made the UI match my project's preferences.
+ * - Window control icons were AI-generated.
+ * - Removed lines on inactive tabs (replacing them with something different soon).
+ *
+ * NOTE: This UI design is temporary. Eventually, I plan to create a UI of my own design that does not require
+ * this license.
+ */
+
+/* Reset some default styles for a clean base */
+body, html {
+  margin: 0;
+  padding: 0;
+  cursor: default;
+  user-select: none;
+  font-family: system-ui, sans-serif;
+  background-color: white;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+#app {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding-top: 34px;
+}
+
+#browser-container {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: calc(100vh - 36px); /* Ensure it takes up all available height */
+  overflow: hidden;
+  position: absolute; /* Ensure it follows viewport sizing */
+  top: 36px;
+  left: 0;
+}
+
+.titlebar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background-color: #f5f5f5;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+/* Window control buttons */
+.window-controls {
+  display: flex;
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 34px;
+  align-items: center;
+}
+
+.window-button {
+  width: 45px;
+  height: 34px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 12px;
+  cursor: pointer;
+}
+
+.window-button:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.window-button.close:hover {
+  background-color: #e81123;
+}
+
+.window-button.minimize {
+  background-image: url(tabview-icons/minimize.svg);
+}
+
+.window-button.maximize {
+  background-image: url(tabview-icons/maximize.svg);
+}
+
+.window-button.close {
+  background-image: url(tabview-icons/windowclose.svg);
+  background-size: 20px;
+}
+
+/* Tab bar and line */
+#tabbar {
+  display: flex;
+  flex-grow: 1;
+  height: 34px;
+  position: relative;
+  z-index: 2;
+  padding: 4px;
+  padding-bottom: 0;
+  min-width: 0;
+}
+
+#line {
+  position: absolute;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.12);
+  width: 100%;
+  height: 1px;
+}
+
+/* Styling for individual tabs */
+.tab {
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
+  max-width: 230px;
+  min-width: 0;
+  padding: 0 8px;
+  overflow: hidden;
+  height: 100%;
+  font-size: 12px;
+}
+
+.tab-title {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  flex-grow: 1;
+  min-width: 0;
+}
+
+/* Close button styling */
+.tab-close {
+  height: 16px;
+  width: 16px;
+  margin-left: 2px;
+  margin-right: -2px;
+  background-repeat: no-repeat;
+  background-size: 12px;
+  background-position: center;
+}
+
+/* Hover effects for tabs */
+.tab:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+/* titlebar buttons hover effect */
+.titlebar-button:hover,
+.tab-close:hover {
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
+/* Selected tab styling */
+.tab.selected {
+  background-color: white;
+  border-right: 1px solid rgba(0, 0, 0, 0.12);
+  border-left: 1px solid rgba(0, 0, 0, 0.12);
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+/* Styling for titlebar buttons */
+.titlebar-button {
+  height: 100%;
+  min-width: 32px;
+  width: 32px;
+  background-repeat: no-repeat;
+  background-size: 16px;
+  background-position: center;
+}
+
+/* Add tab button styling */
+#add-tab-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 4px;
+  height: calc(100% - 1px);
+  margin-top: 1px;
+}
+
+/* Icons */
+.add-icon {
+  background-image: url(tabview-icons/add.svg);
+  opacity: 0.54;
+}
+
+.close-icon {
+  background-image: url(tabview-icons/close.svg);
+}
