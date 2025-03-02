@@ -25,7 +25,13 @@ module.exports = {
         test: /\.svg$/,
         type: 'asset/resource',
         generator: {
-          filename: 'tabview-icons/[name][ext]'
+          filename: (pathData) => {
+            if (pathData.module.resource.includes('tabview-icons')) {
+              return 'tabview-icons/[name][ext]';
+            } else if (pathData.module.resource.includes('toolbar-icons')) {
+              return 'toolbar-icons/[name][ext]';
+            }
+          }
         }
       }
     ]
@@ -33,6 +39,6 @@ module.exports = {
   mode: 'development',
   devServer: {
     static: path.join(__dirname, 'build'),
-    hot: true, // Enable hot module replacement
+    hot: true,
   }
 };

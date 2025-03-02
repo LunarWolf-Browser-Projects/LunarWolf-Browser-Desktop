@@ -36,9 +36,9 @@ function createWindow() {
   mainWindow.loadFile(path.resolve(__dirname, "./app.html"));
 
   // Open the dev tools in development mode (do a // to this part of the code when editing in production)
-  if (process.env.NODE_ENV === 'development') {
-    mainWindow.webContents.openDevTools({ mode: 'detach' });
-  }
+  //if (process.env.NODE_ENV === 'development') {
+  //  mainWindow.webContents.openDevTools({ mode: 'detach' });
+  //}
 
   // IPC handlers for window actions
   ipcMain.on('window-minimize', () => mainWindow.minimize());
