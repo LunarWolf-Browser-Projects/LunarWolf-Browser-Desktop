@@ -2,7 +2,7 @@
   "name": "LunarWolf",
   "packageManager": "yarn@4.6.0",
   "version": "0.0.1",
-  "license": "no-license-yet",
+  "license": "MIT",
   "main": "build/lunarwolf-web-browser.js",
   "description": "LunarWolf Browser",
   "scripts": {
