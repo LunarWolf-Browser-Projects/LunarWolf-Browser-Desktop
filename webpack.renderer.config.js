@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  entry: './src/renderer/ui/views/tabview/tabbar.ts',
+  entry: './src/renderer/renderer.ts',
   target: 'electron-renderer',
   output: {
     path: path.resolve(__dirname, 'build'),
