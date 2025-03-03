@@ -73,9 +73,9 @@ body, html {
   display: flex;
   flex-direction: column;
   width: 100vw;
-  height: calc(100vh - 36px); /* Ensure it takes up all available height */
+  height: calc(100vh - 36px);
   overflow: hidden;
-  position: absolute; /* Ensure it follows viewport sizing */
+  position: absolute;
   top: 36px;
   left: 0;
 }
@@ -120,6 +120,7 @@ body, html {
 
 .window-button.minimize {
   background-image: url(tabview-icons/minimize.svg);
+  background-size: 16px; /* Increased size */
 }
 
 .window-button.maximize {
