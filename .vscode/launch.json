@@ -1,0 +1,26 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Debug Electron App",
+        "type": "node",
+        "request": "launch",
+        "program": "${workspaceFolder}/lunarwolf-web-browser.js",  // Adjust the path if needed
+        "args": [],
+        "env": {
+          "ELECTRON_ENABLE_LOGGING": "true",
+          "ELECTRON_DEBUG": "true"
+        },
+        "outputCapture": "std",
+        "sourceMaps": true,
+        "skipFiles": ["<node_internals>/**"],
+        "smartStep": true,
+        "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron", // Ensures Electron is used from your project dependencies
+        "runtimeArgs": [],
+        "cwd": "${workspaceFolder}",
+        "preLaunchTask": "yarn run start", // (Optional) If you have a start script, this can launch it automatically
+        "postDebugTask": "",
+        "stopOnEntry": false
+      }
+    ]
+  }
