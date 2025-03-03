@@ -120,7 +120,7 @@ body, html {
 
 .window-button.minimize {
   background-image: url(tabview-icons/minimize.svg);
-  background-size: 16px; /* Increased size */
+  background-size: 16px;
 }
 
 .window-button.maximize {
