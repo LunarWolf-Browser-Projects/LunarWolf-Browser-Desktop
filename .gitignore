@@ -10,3 +10,7 @@ node_modules
 build
 dist
 .yarn/install-state.gz
+*.gz
+.yarn/install-state.gz
+.yarn/install-state.gz
+/.yarn
