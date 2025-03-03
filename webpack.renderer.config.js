@@ -29,7 +29,7 @@ module.exports = {
             if (pathData.module.resource.includes('tabview-icons')) {
               return 'tabview-icons/[name][ext]';
             } else if (pathData.module.resource.includes('toolbar-icons')) {
-              return 'toolbar-icons/[name][ext]';
+              return 'toolbar-icons/[name][ext]';  // Make sure the toolbar icons go to the correct location
             }
           }
         }
