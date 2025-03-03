@@ -121,15 +121,19 @@ body, html {
 .window-button.minimize {
   background-image: url(tabview-icons/minimize.svg);
   background-size: 16px;
+  background-position: center;
 }
 
 .window-button.maximize {
   background-image: url(tabview-icons/maximize.svg);
+  background-size: 13px;
+  background-position: center;
 }
 
 .window-button.close {
   background-image: url(tabview-icons/windowclose.svg);
   background-size: 20px;
+  background-position: center;
 }
 
 /* Tab bar and line */
