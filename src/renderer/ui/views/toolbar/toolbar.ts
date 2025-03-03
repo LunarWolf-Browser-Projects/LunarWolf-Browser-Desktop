@@ -3,6 +3,7 @@ import backIconSrc from './toolbar-icons/back.svg';
 import forwardIconSrc from './toolbar-icons/forward.svg';
 import reloadIconSrc from './toolbar-icons/refresh.svg';
 import searchIconSrc from './toolbar-icons/address_btn_icons/search.svg'; // Import the search icon
+import optionsIconSrc from './toolbar-icons/options.svg'; // Import the options icon
 
 import './toolbarstyle.css'; // Import the CSS file for styling
 
@@ -94,11 +95,23 @@ export const createToolbar = () => {
         (activeWebview as Electron.WebviewTag).addEventListener('did-navigate', updateAddressBar);
     }
 
+    // Menu Options Button
+    const menuOptionsButton = document.createElement('button');
+    menuOptionsButton.id = 'menuoptions-button';
+    const optionsIcon = document.createElement('img');
+    optionsIcon.src = optionsIconSrc; // Use the options icon
+    menuOptionsButton.appendChild(optionsIcon);
+    menuOptionsButton.onclick = () => {
+        // TODO: implament context menu functionallity.
+        console.log('Menu options button clicked');
+    };
+
     // Append elements to toolbar
     toolbar.appendChild(backButton);
     toolbar.appendChild(forwardButton);
     toolbar.appendChild(reloadButton);
     toolbar.appendChild(addressBar);
+    toolbar.appendChild(menuOptionsButton); // Add the menu options button at the right
 
     return toolbar;
 };
