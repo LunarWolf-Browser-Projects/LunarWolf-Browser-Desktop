@@ -1,7 +1,7 @@
 #browser-toolbar {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 14px;  /* Increased gap for slightly more spacing between buttons */
     padding: 5px;
     background: #ffffff;
     border-bottom: 0.7px solid #ccc;
@@ -9,28 +9,27 @@
 }
 
 #browser-toolbar button {
-    padding: 6px;
+    padding: 3px;
     border: none;
     background: transparent;
     cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 32px;
-    height: 32px;
+    width: 24px;
+    height: 24px;
     transition: background-color 0.3s ease, transform 0.2s ease;
     margin-top: -2px;
 }
 
-/* Hover effect for the buttons */
 #browser-toolbar button:hover {
-    background-color: #f0f0f0; /* Light background color on hover */
-    transform: scale(1.1); /* Slightly enlarge the button on hover */
+    background-color: #f0f0f0;
+    transform: scale(1.1);
 }
 
 #browser-toolbar button img {
-    width: 17px;
-    height: 17px;
+    width: 18px;
+    height: 18px;
     transition: transform 0.2s ease;
 }
 
@@ -49,13 +48,13 @@
 }
 
 #address-bar-container #address-bar-button {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     background: transparent;
     border: none;
     cursor: pointer;
     position: absolute;
-    left: 8px; /* Position the button inside the address bar */
+    left: 11px;
 }
 
 #address-bar-container #address-bar-button img {
@@ -72,9 +71,10 @@
     background: white;
     outline: none;
     height: 30px;
-    padding-left: 32px; /* Adjust padding to make space for the button */
+    padding-left: 33px;  /* Space for the button */
+    padding-right: 16px;  /* Added extra padding to extend the address bar on the right */
     transition: border 0.3s ease;
-    margin-top: -0.7px; /* Move the address bar up slightly */
+    margin-top: -0.7px;
 }
 
 #address-bar-container #address-bar:focus {
@@ -87,23 +87,23 @@
 
 #menuoptions-button {
     margin-left: 8px;
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     background: transparent;
     border: none;
     cursor: pointer;
 }
 
 #menuoptions-button img {
-    width: 17px;
-    height: 17px;
+    width: 14px;
+    height: 14px;
     background-size: 25px;
     background-position: center;
 }
 
 #menuoptions-button:hover {
-    background-color: #f0f0f0; /* Light background color on hover */
-    transform: scale(1.1); /* Slightly enlarge the button on hover */
+    background-color: #f0f0f0;
+    transform: scale(1.1);
 }
 
 #menuoptions-button:hover img {
