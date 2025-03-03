@@ -38,7 +38,32 @@
     transform: scale(1.1);
 }
 
-#address-bar {
+#address-bar-container {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    background: #ffffff;
+    border-radius: 20px;
+    height: 30px;
+    position: relative;
+}
+
+#address-bar-container #address-bar-button {
+    width: 24px;
+    height: 24px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    left: 8px; /* Position the button inside the address bar */
+}
+
+#address-bar-container #address-bar-button img {
+    width: 100%;
+    height: 100%;
+}
+
+#address-bar-container #address-bar {
     flex-grow: 1;
     padding: 6px;
     font-size: 11.7px;
@@ -46,15 +71,17 @@
     border-radius: 20px;
     background: white;
     outline: none;
-    transition: border 0.3s ease;
     height: 30px;
-    margin-top: -1px;
+    padding-left: 32px; /* Adjust padding to make space for the button */
+    transition: border 0.3s ease;
+    margin-top: -0.7px; /* Move the address bar up slightly */
 }
 
-#address-bar:focus {
+
+#address-bar-container #address-bar:focus {
     border: 2px solid #0078d4;
 }
 
-#address-bar::placeholder {
+#address-bar-container #address-bar::placeholder {
     color: #888;
 }

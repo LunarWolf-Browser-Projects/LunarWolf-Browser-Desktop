@@ -2,6 +2,7 @@
 import backIconSrc from './toolbar-icons/back.svg';
 import forwardIconSrc from './toolbar-icons/forward.svg';
 import reloadIconSrc from './toolbar-icons/refresh.svg';
+import searchIconSrc from './toolbar-icons/address_btn_icons/search.svg'; // Import the search icon
 
 import './toolbarstyle.css'; // Import the CSS file for styling
 
@@ -42,16 +43,30 @@ export const createToolbar = () => {
         if (activeWebview) (activeWebview as Electron.WebviewTag).reload();
     };
 
-    // Address Bar
-    const addressBar = document.createElement('input');
-    addressBar.id = 'address-bar';
-    addressBar.type = 'text';
-    addressBar.placeholder = 'Enter your URL here...';
-    addressBar.onkeypress = (event) => {
+    // Address Bar Container
+    const addressBar = document.createElement('div');
+    addressBar.id = 'address-bar-container';
+
+    // Create the button inside the address bar
+    const searchButton = document.createElement('button');
+    searchButton.id = 'address-bar-button';
+    const searchIcon = document.createElement('img');
+    searchIcon.src = searchIconSrc; // Use the search icon
+    searchButton.appendChild(searchIcon);
+    searchButton.onclick = () => {
+        // No function for now, it's a placeholder
+    };
+
+    // Create the actual input field for the address bar
+    const addressInput = document.createElement('input');
+    addressInput.id = 'address-bar';
+    addressInput.type = 'text';
+    addressInput.placeholder = 'Enter your URL here...';
+    addressInput.onkeypress = (event) => {
         if (event.key === 'Enter') {
             const activeWebview = getActiveWebview();
             if (activeWebview) {
-                let url = addressBar.value;
+                let url = addressInput.value;
                 if (!url.startsWith('http://') && !url.startsWith('https://')) {
                     url = `https://${url}`; // Ensure the URL has the correct protocol
                 }
@@ -61,11 +76,15 @@ export const createToolbar = () => {
         }
     };
 
+    // Append the button and input field to the address bar container
+    addressBar.appendChild(searchButton);
+    addressBar.appendChild(addressInput);
+
     // Update address bar with the current URL of the active webview
     const updateAddressBar = () => {
         const activeWebview = getActiveWebview();
         if (activeWebview) {
-            addressBar.value = (activeWebview as Electron.WebviewTag).getURL();
+            addressInput.value = (activeWebview as Electron.WebviewTag).getURL();
         }
     };
 
