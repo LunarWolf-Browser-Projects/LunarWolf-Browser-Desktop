@@ -12,6 +12,3 @@ contextBridge.exposeInMainWorld('electronAPI', {
   switchTab: (id: number) => ipcRenderer.invoke('switch-tab', id),
   closeTab: (id: number) => ipcRenderer.invoke('close-tab', id),
 });
-
-// Send a message to the main process to verify the preload script is working
-ipcRenderer.send('preload-check', 'scripts preloaded!');
