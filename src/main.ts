@@ -35,6 +35,17 @@ function createWindow() {
 
   mainWindow.loadFile(path.resolve(__dirname, "./app.html"));
 
+  // load css for tabbar ui.
+  const cssPath = path.resolve(__dirname, '..', 'build', 'tabbarstyle.css');
+  mainWindow.webContents.once('did-finish-load', () => {
+    try {
+      const css = readFileSync(cssPath, 'utf8');
+      mainWindow.webContents.insertCSS(css);
+    } catch (error) {
+      console.error("Failed to load CSS:", error);
+    }
+  });
+
   // Open the dev tools in development mode (do a // to this part of the code when editing in production)
   //if (process.env.NODE_ENV === 'development') {
   //  mainWindow.webContents.openDevTools({ mode: 'detach' });

@@ -45,8 +45,8 @@ declare global {
     webkitAppRegion?: string;
   }
 }
-
-import './tabbarstyle.css';
+// tab and titlebar style css has been moved to the main process.
+// import './tabbarstyle.css';
 import addIcon from './tabview-icons/add.svg';
 import closeIcon from './tabview-icons/close.svg';
 import minimizeIcon from './tabview-icons/minimize.svg';
