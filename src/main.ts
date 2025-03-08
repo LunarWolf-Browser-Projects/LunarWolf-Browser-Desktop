@@ -23,19 +23,25 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
-    frame: false, // Disable default frame for custom titlebar
+    frame: false,
     icon: iconPath, // Set the icon for the app (taskbar, window, etc.)
     webPreferences: {
       preload: path.join(__dirname, 'preload', 'preload.js'),
       nodeIntegration: false,
       contextIsolation: true,
-      webviewTag: true
+      sandbox: true,
+      webviewTag: true,
+      enableWebSQL: false,
+      disableBlinkFeatures: 'RemotePlayback',
+      allowRunningInsecureContent: false, // Disallow running insecure content in the webview
+      javascript: true,
     }
   });
 
+  // Load HTML content using WebContentsView
   mainWindow.loadFile(path.resolve(__dirname, "./app.html"));
 
-  // load css for tabbar ui.
+  // load css for tabbar UI.
   const cssPath = path.resolve(__dirname, '..', 'build', 'tabbarstyle.css');
   mainWindow.webContents.once('did-finish-load', () => {
     try {

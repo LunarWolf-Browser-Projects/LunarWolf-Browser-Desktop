@@ -12,3 +12,13 @@ contextBridge.exposeInMainWorld('electronAPI', {
   switchTab: (id: number) => ipcRenderer.invoke('switch-tab', id),
   closeTab: (id: number) => ipcRenderer.invoke('close-tab', id),
 });
+
+// Webview preload logic
+window.addEventListener('DOMContentLoaded', () => {
+  ipcRenderer.on('some-message', (event: any, data: any) => {
+    console.log("Message from main process:", data);
+  });
+
+  // Example of sending messages from webview to the main process
+  ipcRenderer.send('webview-loaded', 'Webview has loaded');
+});
