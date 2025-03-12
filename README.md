@@ -39,4 +39,4 @@ Contributions are welcome!
 This project is licensed under `MIT` See the `LICENSE` file for details.
 
 ## Acknowledgments
-- some of the code within this project was from another project, for those peices of code all credit goes to them and there work, theres some original stuff in here tho, you can see contributions to there work (they did not have no involvment with this project) i just used some of there code as a placeholder, which can be found in the `tabbar.ts` and `tabbarstyle.css` files located within the renderer.
+- some of the code within this project was from another project, for those peices of code all credit goes to them and there work, theres some original stuff in here tho, you can see contributions to there work (they did not have no involvment with this project) i just used some of there code as a placeholder, which can be found in the `tabbar.ts` and `tabbarstyle.css` files located within the renderer. along with that there is also a `NOTICE.md` file within the root directory.
