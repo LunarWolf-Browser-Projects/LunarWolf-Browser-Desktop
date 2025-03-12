@@ -27,7 +27,7 @@ LunarWolf Browser is a custom Electron-based web browser designed with a modular
    ```
 4. Run the application:
    ```sh
-   yarn run start.
+   yarn run start
    ```
 
 ## Contributing
