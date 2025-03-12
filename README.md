@@ -33,7 +33,7 @@ LunarWolf Browser is a custom Electron-based web browser designed with a modular
    ```
 
 ## Contributing
-Contributions are welcome!
+Contributions to this project are currently on hold, thank you for your understanding.
 
 ## License
 This project is licensed under `MIT` See the `LICENSE` file for details.
