@@ -1,3 +1,8 @@
+// since this code is connected to the tabbar.ts file, i do not know much about licensing since the ui
+// was not completly built from the ground up, (but the actual Browser portion is as you see here.), so if you would like
+// to see the license related stuff check tabbar.ts or tabbarstyle.css as it contains the contrabutions needed.
+// if i make any mistakes please forgive me as i am new to all of this stuff.
+
 import { BrowserWindow, WebContentsView, ipcMain } from 'electron';
 import { createToolbar } from '..//toolbar/toolbar'; // Import the toolbar creation function
 import { defaultUserAgent } from '../../../agents/user-agent/useragent';
