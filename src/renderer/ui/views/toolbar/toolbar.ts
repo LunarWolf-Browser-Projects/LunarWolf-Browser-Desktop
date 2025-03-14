@@ -1,127 +1,110 @@
-// Import the SVG icons as modules
-import backIconSrc from './toolbar-icons/back.svg';
-import forwardIconSrc from './toolbar-icons/forward.svg';
-import reloadIconSrc from './toolbar-icons/refresh.svg';
-import searchIconSrc from './toolbar-icons/address_btn_icons/search.svg'; // Import the search icon
-import optionsIconSrc from './toolbar-icons/options.svg'; // Import the options icon
+// toolbar.ts
+import { BrowserWindow, WebContentsView } from 'electron';
+import { getToolbarStyles } from './toolbarstyle';
+import * as path from 'path';
+import * as fs from 'fs';
 
-import './toolbarstyle.css'; // Import the CSS file for styling
+export function createToolbar(mainWindow: BrowserWindow): WebContentsView {
+    const toolbarHeight = 37; // Height of the toolbar
+    const windowBounds = mainWindow.getBounds();
 
-export const createToolbar = () => {
-    const toolbar = document.createElement('div');
-    toolbar.id = 'browser-toolbar';
+    const toolbarView = new WebContentsView({
+        webPreferences: {
+            preload: path.join(__dirname, 'preload', 'preload.js'),
+            nodeIntegration: false,
+            contextIsolation: true,
+        },
+    });
 
-    // Back Button
-    const backButton = document.createElement('button');
-    backButton.id = 'back-button';
-    const backIcon = document.createElement('img');
-    backIcon.src = backIconSrc; // Use imported SVG source for the icon
-    backButton.appendChild(backIcon);
-    backButton.onclick = () => {
-        const activeWebview = getActiveWebview();
-        if (activeWebview) (activeWebview as Electron.WebviewTag).goBack();
-    };
+    mainWindow.contentView.addChildView(toolbarView);
+    toolbarView.setBounds({
+        x: 0,
+        y: 0,
+        width: windowBounds.width,
+        height: toolbarHeight,
+    });
 
-    // Forward Button
-    const forwardButton = document.createElement('button');
-    forwardButton.id = 'forward-button';
-    const forwardIcon = document.createElement('img');
-    forwardIcon.src = forwardIconSrc; // Use imported SVG source for the icon
-    forwardButton.appendChild(forwardIcon);
-    forwardButton.onclick = () => {
-        const activeWebview = getActiveWebview();
-        if (activeWebview) (activeWebview as Electron.WebviewTag).goForward();
-    };
+    // Read SVG files as base64 (Fixes file:// loading issues)
+    function getBase64Icon(iconPath: string): string {
+        try {
+            const iconData = fs.readFileSync(iconPath, 'base64');
+            return `data:image/svg+xml;base64,${iconData}`;
+        } catch (error) {
+            console.error(`Failed to load icon: ${iconPath}`, error);
+            return '';
+        }
+    }
 
-    // Reload Button
-    const reloadButton = document.createElement('button');
-    reloadButton.id = 'reload-button';
-    const reloadIcon = document.createElement('img');
-    reloadIcon.src = reloadIconSrc; // Use imported SVG source for the icon
-    reloadButton.appendChild(reloadIcon);
-    reloadButton.onclick = () => {
-        const activeWebview = getActiveWebview();
-        if (activeWebview) (activeWebview as Electron.WebviewTag).reload();
-    };
+    // Convert SVGs to base64
+    const backIconData = getBase64Icon(path.resolve(__dirname, 'toolbar-icons', 'back.svg'));
+    const forwardIconData = getBase64Icon(path.resolve(__dirname, 'toolbar-icons', 'forward.svg'));
+    const refreshIconData = getBase64Icon(path.resolve(__dirname, 'toolbar-icons', 'refresh.svg'));
+    const searchIconData = getBase64Icon(path.resolve(__dirname, 'toolbar-icons', 'address_btn_icons', 'search.svg'));
+    const optionsIconData = getBase64Icon(path.resolve(__dirname, 'toolbar-icons', 'options.svg'));
 
-    // Address Bar Container
-    const addressBar = document.createElement('div');
-    addressBar.id = 'address-bar-container';
+    // Inject CSS to style the toolbar
+    toolbarView.webContents.on('dom-ready', () => {
+        const css = getToolbarStyles();
+        toolbarView.webContents.insertCSS(css);
 
-    // Create the button inside the address bar
-    const searchButton = document.createElement('button');
-    searchButton.id = 'address-bar-button';
-    const searchIcon = document.createElement('img');
-    searchIcon.src = searchIconSrc; // Use the search icon
-    searchButton.appendChild(searchIcon);
-    searchButton.onclick = () => {
-        // No function for now, it's a placeholder
-    };
+        // Create the toolbar UI using TypeScript
+        const toolbarHTML = `
+            <div class="toolbar">
+                <button class="toolbar-button" id="backButton">
+                    <img src="${backIconData}" alt="Back">
+                </button>
+                <button class="toolbar-button" id="forwardButton">
+                    <img src="${forwardIconData}" alt="Forward">
+                </button>
+                <button class="toolbar-button" id="refreshButton">
+                    <img src="${refreshIconData}" alt="Refresh">
+                </button>
+                <div class="address-bar-container">
+                    <button class="address-bar-button">
+                        <img src="${searchIconData}" alt="Search">
+                    </button>
+                    <input class="address-bar" id="addressBar" type="text" placeholder="Enter address or search">
+                </div>
+                <button class="toolbar-button" id="optionsButton">
+                    <img src="${optionsIconData}" alt="Options">
+                </button>
+            </div>
+        `;
 
-    // Create the actual input field for the address bar
-    const addressInput = document.createElement('input');
-    addressInput.id = 'address-bar';
-    addressInput.type = 'text';
-    addressInput.placeholder = 'Enter your URL here...';
-    addressInput.onkeypress = (event) => {
-        if (event.key === 'Enter') {
-            const activeWebview = getActiveWebview();
-            if (activeWebview) {
-                let url = addressInput.value;
-                if (!url.startsWith('http://') && !url.startsWith('https://')) {
-                    url = `https://${url}`; // Ensure the URL has the correct protocol
+        // Set the toolbar HTML
+        toolbarView.webContents.executeJavaScript(`
+            document.body.innerHTML = \`${toolbarHTML}\`;
+        `);
+
+        // Add event listeners using TypeScript
+        toolbarView.webContents.executeJavaScript(`
+            document.getElementById('backButton').addEventListener('click', () => {
+                window.electronToolbarAPI.navigateBack();
+            });
+
+            document.getElementById('forwardButton').addEventListener('click', () => {
+                window.electronToolbarAPI.navigateForward();
+            });
+
+            document.getElementById('refreshButton').addEventListener('click', () => {
+                window.electronToolbarAPI.navigateRefresh();
+            });
+
+            document.getElementById('addressBar').addEventListener('keypress', (event) => {
+                if (event.key === 'Enter') {
+                    window.electronToolbarAPI.navigateTo(event.target.value);
                 }
-                // Use the setURL method to load the new URL
-                (activeWebview as Electron.WebviewTag).loadURL(url);
-            }
-        }
-    };
+            });
 
-    // Append the button and input field to the address bar container
-    addressBar.appendChild(searchButton);
-    addressBar.appendChild(addressInput);
+            // TODO: add functionality
+            document.getElementById('optionsButton').addEventListener('click', () => {
+                // Placeholder for future functionality
+            });
+        `);
+    });
 
-    // Update address bar with the current URL of the active webview
-    const updateAddressBar = () => {
-        const activeWebview = getActiveWebview();
-        if (activeWebview) {
-            addressInput.value = (activeWebview as Electron.WebviewTag).getURL();
-        }
-    };
+    // Load a blank page to apply the CSS
+    toolbarView.webContents.loadURL('about:blank');
 
-    // Listen for URL changes in the active webview
-    const activeWebview = getActiveWebview();
-    if (activeWebview) {
-        (activeWebview as Electron.WebviewTag).addEventListener('did-navigate', updateAddressBar);
-    }
-
-    // Menu Options Button
-    const menuOptionsButton = document.createElement('button');
-    menuOptionsButton.id = 'menuoptions-button';
-    const optionsIcon = document.createElement('img');
-    optionsIcon.src = optionsIconSrc; // Use the options icon
-    menuOptionsButton.appendChild(optionsIcon);
-    menuOptionsButton.onclick = () => {
-        // TODO: implament context menu functionallity.
-        console.log('Menu options button clicked');
-    };
-
-    // Append elements to toolbar
-    toolbar.appendChild(backButton);
-    toolbar.appendChild(forwardButton);
-    toolbar.appendChild(reloadButton);
-    toolbar.appendChild(addressBar);
-    toolbar.appendChild(menuOptionsButton); // Add the menu options button at the right
-
-    return toolbar;
-};
-
-// Helper function to get the currently active webview based on the selected tab
-const getActiveWebview = () => {
-    const activeTabId = (document.querySelector('#browser-container') as any)?.dataset.activeTabId;
-    if (activeTabId) {
-        const activeTab = document.querySelector(`#webview-container-${activeTabId}`) as HTMLDivElement;
-        return activeTab?.querySelector('webview');
-    }
-    return null;
-};
+    return toolbarView;
+}

@@ -52,7 +52,7 @@ import closeIcon from './tabview-icons/close.svg';
 import minimizeIcon from './tabview-icons/minimize.svg';
 import maximizeIcon from './tabview-icons/maximize.svg';
 import restoreIcon from './tabview-icons/restore.svg';
-import { closeBrowserView, createBrowserView, selectBrowserView } from '../browserapp/browserapp';
+import { closeWebContentsView, createWebContentsView, selectWebContentsView } from '../browserapp/browserapp';
 
 // Main app container
 const app = document.createElement('div');
@@ -143,7 +143,7 @@ const selectTab = (id: number): void => {
       newTab.tabElement.classList.add('selected');
   }
 
-  selectBrowserView(id);  // <-- Show the correct browser view
+   window.electron.send('select-web-contents-view', id);
 };
 
 const createElement = <K extends keyof HTMLElementTagNameMap>(
@@ -205,7 +205,7 @@ const closeTab = (id: number): void => {
 
   if (index === -1) return;
 
-  closeBrowserView(id);  // <-- Remove the browser view
+   window.electron.send('close-web-contents-view', id);
 
   let newIndex = index + 1;
 
@@ -243,7 +243,7 @@ const createTab = (): void => {
   };
 
   tabs.push(tab);
-  createBrowserView(id);  // <-- Create matching browser view for the tab
+  window.electron.send('create-web-contents-view', id);
   selectTab(id);
 };
 
