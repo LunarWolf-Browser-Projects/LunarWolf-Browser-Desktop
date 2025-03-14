@@ -8,9 +8,7 @@ LunarWolf Browser is a custom Electron-based web browser designed with a modular
 - **Minimalist and user-friendly UI**
 - **Customizable browsing experience**
 
-+ NOTE: this project uses the webviewtag, if you want to know more about webview, read electrons official doc regarding it: https://www.electronjs.org/docs/latest/api/webview-tag
-
-> ANOTHER THING TO NOTE: this project is in very early stages, it is not the most secure right now due to webview, which means its marked unstable untill prior notice.
+> ANOTHER THING TO NOTE: this project is in very early stages, there are plenty of bugs and mistakes, we strive to stay as transparent and informitive as possible
 
 ## instructions
 1. Clone the repository:
