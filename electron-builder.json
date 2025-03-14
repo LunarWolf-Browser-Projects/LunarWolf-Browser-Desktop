@@ -42,8 +42,5 @@
     "category": "Utility",
     "maintainer": "LunarWolf Browser Devs",
     "description": "LunarWolf-browser"
-  },
-  "extraResources": [
-    "assets/*"
-  ]
+  }
 }
