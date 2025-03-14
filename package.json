@@ -1,7 +1,7 @@
 {
   "name": "LunarWolf",
   "packageManager": "yarn@4.6.0",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "license": "MIT",
   "main": "build/lunarwolf-web-browser.js",
   "description": "LunarWolf Browser",
@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@types/electron": "^1.6.12",
-    "@types/node": "^22.13.8",
+    "@types/node": "^22.13.10",
     "css-loader": "^7.1.2",
     "progress": "^2.0.3",
     "style-loader": "^4.0.0",
@@ -33,9 +33,10 @@
     "@types/progress": "^2.0.7",
     "concurrently": "^9.1.2",
     "copy-webpack-plugin": "^13.0.0",
-    "electron": "^34.3.0",
+    "electron": "^35.0.1",
     "electron-builder": "^25.1.8",
     "electron-reloader": "^1.2.3",
+    "file-loader": "^6.2.0",
     "ts-node": "^10.9.2",
     "webpack-dev-server": "^5.2.0"
   }
