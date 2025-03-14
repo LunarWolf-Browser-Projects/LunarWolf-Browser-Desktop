@@ -27,9 +27,20 @@ module.exports = {
         test: /\.(png|jpg|jpeg|gif)$/i, // Handle only image files (exclude SVG)
         type: 'asset/resource',
         generator: {
-          filename: 'assets/images/[name][ext]',
+          filename: 'images/[name][ext]',
         }
-      }
+      },
+      {
+        test: /\.svg$/i, // Add this rule for SVG files
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: 'icons/[name].[ext]', // Customize the output directory
+            },
+          },
+        ],
+      },
     ]
   },
   plugins: [
@@ -38,7 +49,7 @@ module.exports = {
         { from: 'static/app_loader/app.html', to: 'app.html' },
         { from: 'src/renderer/ui/views/tabview/tabbarstyle.css', to: 'tabbarstyle.css' },
         { from: 'src/renderer/ui/views/tabview/tabview-icons', to: 'tabview-icons' },
-        // Change this line to place toolbar-icons directly in the build folder (no "assets" folder)
+        // Place toolbar-icons directly in the build folder
         { from: 'src/renderer/ui/views/toolbar/toolbar-icons', to: 'toolbar-icons' }
       ]
     })
