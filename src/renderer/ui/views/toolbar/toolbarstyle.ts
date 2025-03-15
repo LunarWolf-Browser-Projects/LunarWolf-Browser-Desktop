@@ -41,6 +41,11 @@ export function getToolbarStyles(): string {
             background-color: rgba(168, 167, 167, 0.1);
         }
 
+        .toolbar-button:disabled {
+            opacity: 0.3; /* Gray out the button */
+            cursor: not-allowed; /* Change cursor to indicate it's not clickable */
+        }
+
         .toolbar-button img {
             width: 18px;
             height: 18px;
@@ -88,16 +93,16 @@ export function getToolbarStyles(): string {
         }
 
         .address-bar-button img {
-            width: 16px; /* Icon size */
-            height: 16px; /* Icon size */
+            width: 14px; /* Reduced icon size */
+            height: 14px; /* Reduced icon size */
         }
 
         .address-bar {
             flex-grow: 1;
             height: 100%;
-            padding: 0 8px 0 4px;
+            padding: 2px 8px 0 4px; /* Increased top padding to move text down slightly */
             border: none;
-            font-size: 14px;
+            font-size: 13px; /* Reduced font size */
             outline: none;
             width: 100%;
             box-sizing: border-box;

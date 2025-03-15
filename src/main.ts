@@ -46,7 +46,7 @@ function createWindow() {
       const css = readFileSync(cssPath, 'utf8');
       mainWindow.webContents.insertCSS(css);
     } catch (error) {
-      console.error('Failed to load CSS:', error);
+      console.error('Failed to load tabview:', error);
     }
   });
 

@@ -1,4 +1,3 @@
-// toolbar.ts
 import { BrowserWindow, WebContentsView } from 'electron';
 import { getToolbarStyles } from './toolbarstyle';
 import * as path from 'path';
@@ -10,7 +9,7 @@ export function createToolbar(mainWindow: BrowserWindow): WebContentsView {
 
     const toolbarView = new WebContentsView({
         webPreferences: {
-            preload: path.join(__dirname, 'preload', 'preload.js'),
+            preload: path.join(__dirname, 'preload', 'toolbarpreload.js'),
             nodeIntegration: false,
             contextIsolation: true,
         },
@@ -99,6 +98,17 @@ export function createToolbar(mainWindow: BrowserWindow): WebContentsView {
             // TODO: add functionality
             document.getElementById('optionsButton').addEventListener('click', () => {
                 // Placeholder for future functionality
+            });
+        `);
+
+        // Listen for navigation state updates and update the buttons
+        toolbarView.webContents.executeJavaScript(`
+            window.electronToolbarAPI.onUpdateNavigationButtons((event, { canGoBack, canGoForward }) => {
+                const backButton = document.getElementById('backButton');
+                const forwardButton = document.getElementById('forwardButton');
+
+                backButton.disabled = !canGoBack;
+                forwardButton.disabled = !canGoForward;
             });
         `);
     });

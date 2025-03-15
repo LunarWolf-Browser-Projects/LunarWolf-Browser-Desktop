@@ -73,6 +73,7 @@ export function createWebContentsView(mainWindow: BrowserWindow, id: number, url
             tab.url = updatedURL;
             if (activeTabId === id) {
                 updateAddressBar(tab.toolbarView, updatedURL); // Update address bar if this is the active tab
+                updateNavigationButtons(tab.toolbarView, tab.webContentsView);
             }
         }
     });
@@ -143,6 +144,7 @@ export function selectWebContentsView(mainWindow: BrowserWindow, id: number) {
 
         // Update the address bar with the active tab's URL
         updateAddressBar(activeTab.toolbarView, activeTab.url);
+        updateNavigationButtons(activeTab.toolbarView, activeTab.webContentsView);
     }
 }
 
@@ -174,6 +176,7 @@ export function updateWebContentsURL(id: number, url: string) {
         view.url = fullUrl;
         if (activeTabId === id) {
             updateAddressBar(view.toolbarView, fullUrl); // Update address bar if this is the active tab
+            updateNavigationButtons(view.toolbarView, view.webContentsView);
         }
     }
 }
@@ -192,12 +195,20 @@ function updateAddressBar(toolbarView: WebContentsView, url: string) {
     toolbarView.webContents.send('update-address-bar', url);
 }
 
+function updateNavigationButtons(toolbarView: WebContentsView, webContentsView: WebContentsView) {
+    const canGoBack = webContentsView.webContents.navigationHistory.canGoBack();
+    const canGoForward = webContentsView.webContents.navigationHistory.canGoForward();
+
+    toolbarView.webContents.send('update-navigation-buttons', { canGoBack, canGoForward });
+}
+
 // Navigation functions
 export function navigateBack() {
     if (activeTabId !== null) {
         const activeTab = tabViews.find(view => view.id === activeTabId);
         if (activeTab) {
-            activeTab.webContentsView.webContents.goBack();
+            activeTab.webContentsView.webContents.navigationHistory.goBack();
+            updateNavigationButtons(activeTab.toolbarView, activeTab.webContentsView);
         }
     }
 }
@@ -206,7 +217,8 @@ export function navigateForward() {
     if (activeTabId !== null) {
         const activeTab = tabViews.find(view => view.id === activeTabId);
         if (activeTab) {
-            activeTab.webContentsView.webContents.goForward();
+            activeTab.webContentsView.webContents.navigationHistory.goForward();
+            updateNavigationButtons(activeTab.toolbarView, activeTab.webContentsView);
         }
     }
 }
@@ -228,6 +240,7 @@ export function navigateTo(url: string) {
             activeTab.webContentsView.webContents.loadURL(fullUrl);
             activeTab.url = fullUrl;
             updateAddressBar(activeTab.toolbarView, fullUrl); // Update address bar with the full URL
+            updateNavigationButtons(activeTab.toolbarView, activeTab.webContentsView);
         }
     }
 }
@@ -247,4 +260,11 @@ ipcMain.on('navigate-refresh', () => {
 
 ipcMain.on('navigate-to', (event, url: string) => {
     navigateTo(url);
+});
+
+ipcMain.on('update-navigation-buttons', (event, { canGoBack, canGoForward }) => {
+    const activeTab = tabViews.find(view => view.id === activeTabId);
+    if (activeTab) {
+        activeTab.toolbarView.webContents.send('update-navigation-buttons', { canGoBack, canGoForward });
+    }
 });
