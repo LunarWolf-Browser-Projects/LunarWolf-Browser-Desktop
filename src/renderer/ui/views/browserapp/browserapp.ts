@@ -3,9 +3,10 @@
 // to see the license related stuff check tabbar.ts or tabbarstyle.css as it contains the contrabutions needed.
 // if i make any mistakes please forgive me as i am new to all of this stuff.
 
-import { BrowserWindow, WebContentsView, ipcMain } from 'electron';
+import { BrowserWindow, WebContentsView, ipcMain, Menu, MenuItem, clipboard, dialog } from 'electron';
 import { createToolbar } from '..//toolbar/toolbar'; // Import the toolbar creation function
 import { defaultUserAgent } from '../../../agents/user-agent/useragent';
+import * as path from 'path';
 
 interface BrowserTabView {
     id: number;
@@ -108,8 +109,114 @@ export function createWebContentsView(mainWindow: BrowserWindow, id: number, url
     ipcMain.on('window-maximized', handleResize);
     ipcMain.on('window-unmaximized', handleResize);
 
+    // Add context menu to the WebContentsView
+    webContentsView.webContents.on('context-menu', (event, params) => {
+        const menu = new Menu();
+
+        // Back
+        menu.append(new MenuItem({
+            label: 'Back',
+            accelerator: 'Alt+Left Arrow',
+            click: () => navigateBack(),
+            enabled: webContentsView.webContents.navigationHistory.canGoBack(),
+        }));
+
+        // Forward
+        menu.append(new MenuItem({
+            label: 'Forward',
+            accelerator: 'Alt+Right Arrow',
+            click: () => navigateForward(),
+            enabled: webContentsView.webContents.navigationHistory.canGoForward(),
+        }));
+
+        // Reload
+        menu.append(new MenuItem({
+            label: 'Reload',
+            accelerator: 'F5',
+            click: () => navigateRefresh(),
+        }));
+
+        // Add a separator below the Reload option
+        menu.append(new MenuItem({ type: 'separator' }));
+
+        // Copy (if text is selected)
+        const hasSelection = !!params.selectionText;
+        if (hasSelection) {
+            menu.append(new MenuItem({
+                label: 'Copy',
+                accelerator: 'Ctrl+C',
+                click: () => clipboard.writeText(params.selectionText),
+            }));
+        }
+
+        // Paste (if clipboard has text)
+        const clipboardText = clipboard.readText();
+        const hasClipboardText = !!clipboardText;
+        if (hasClipboardText) {
+            menu.append(new MenuItem({
+                label: 'Paste',
+                accelerator: 'Ctrl+V',
+                click: () => webContentsView.webContents.insertText(clipboardText),
+            }));
+        }
+
+        // Add a separator below Copy/Paste only if one of them is showing
+        if (hasSelection || hasClipboardText) {
+            menu.append(new MenuItem({ type: 'separator' }));
+        }
+
+        // Save As
+        menu.append(new MenuItem({
+            label: 'Save As',
+            accelerator: 'Ctrl+S',
+            click: async () => {
+                const { filePath } = await dialog.showSaveDialog(mainWindow, {
+                    title: 'Save Page As',
+                    defaultPath: path.join(__dirname, 'page.html'),
+                });
+                if (filePath) {
+                    webContentsView.webContents.savePage(filePath, 'HTMLComplete');
+                }
+            },
+        }));
+
+        // Print
+        menu.append(new MenuItem({
+            label: 'Print',
+            accelerator: 'Ctrl+P',
+            click: () => webContentsView.webContents.print(),
+        }));
+
+        // View Page Source
+        menu.append(new MenuItem({
+            label: 'View Page Source',
+            accelerator: 'Ctrl+U',
+            click: async () => {
+                const html = await webContentsView.webContents.executeJavaScript('document.documentElement.outerHTML');
+                const newTab = createWebContentsView(mainWindow, Date.now(), 'about:blank');
+                newTab.webContents.on('did-finish-load', () => {
+                    newTab.webContents.insertCSS('body { white-space: pre-wrap; font-family: monospace; }');
+                    newTab.webContents.executeJavaScript(`document.body.textContent = ${JSON.stringify(html)};`);
+                });
+            },
+        }));
+
+        // Inspect
+        menu.append(new MenuItem({
+            label: 'Inspect',
+            accelerator: 'Ctrl+Shift+I',
+            click: () => webContentsView.webContents.openDevTools(),
+        }));
+
+        // Show the context menu
+        menu.popup({ window: mainWindow });
+    });
+
     return webContentsView;
 }
+
+// Rest of the functions (selectWebContentsView, closeWebContentsView, etc.) remain unchanged
+// ...
 
 export function selectWebContentsView(mainWindow: BrowserWindow, id: number) {
     const activeTab = tabViews.find(view => view.id === id);

@@ -49,8 +49,8 @@ module.exports = {
         { from: 'static/app_loader/app.html', to: 'app.html' },
         { from: 'src/renderer/ui/views/tabview/tabbarstyle.css', to: 'tabbarstyle.css' },
         { from: 'src/renderer/ui/views/tabview/tabview-icons', to: 'tabview-icons' },
-        // Place toolbar-icons directly in the build folder
-        { from: 'src/renderer/ui/views/toolbar/toolbar-icons', to: 'toolbar-icons' }
+        { from: 'src/renderer/ui/views/toolbar/toolbar-icons', to: 'toolbar-icons' },
+        { from: 'src/renderer/ui/views/toolmenuoptions/menu-icons', to: 'toolmenuoptions-icons' }
       ]
     })
   ],

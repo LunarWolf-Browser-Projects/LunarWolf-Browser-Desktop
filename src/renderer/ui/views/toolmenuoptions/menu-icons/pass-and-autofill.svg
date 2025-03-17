@@ -1,0 +1,10 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Lock Body -->
+  <rect x="6" y="10" width="12" height="10" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Lock Shackle -->
+  <path d="M8 10V7C8 4.8 9.8 3 12 3C14.2 3 16 4.8 16 7V10" stroke="#000000" stroke-width="2" stroke-linecap="round"/>
+  <!-- Asterisks -->
+  <path d="M9 15H9.01" stroke="#000000" stroke-width="2" stroke-linecap="round"/>
+  <path d="M12 15H12.01" stroke="#000000" stroke-width="2" stroke-linecap="round"/>
+  <path d="M15 15H15.01" stroke="#000000" stroke-width="2" stroke-linecap="round"/>
+</svg>
