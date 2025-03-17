@@ -958,7 +958,7 @@ __metadata:
     concurrently: "npm:^9.1.2"
     copy-webpack-plugin: "npm:^13.0.0"
     css-loader: "npm:^7.1.2"
-    electron: "npm:^35.0.1"
+    electron: "npm:^35.0.2"
     electron-builder: "npm:^25.1.8"
     electron-reloader: "npm:^1.2.3"
     file-loader: "npm:^6.2.0"
@@ -2334,16 +2334,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron@npm:^35.0.1":
-  version: 35.0.1
-  resolution: "electron@npm:35.0.1"
+"electron@npm:^35.0.2":
+  version: 35.0.2
+  resolution: "electron@npm:35.0.2"
   dependencies:
     "@electron/get": "npm:^2.0.0"
     "@types/node": "npm:^22.7.7"
     extract-zip: "npm:^2.0.1"
   bin:
     electron: cli.js
-  checksum: 10c0/6b4443d837c9759c49f3dcf580138656aae82c7816facf5c301ed223630fd2dc78312bb56d49e9ad3600396dee79f06808f95bb093e368e587a47be771945934
+  checksum: 10c0/c49175411dd642214ef953cf257cf6b3f3a59d2211f5669c4fdb8f85cf27d8781c978beac7a8af301db4c42ffbf0441c662f0d7c97c845ab13ae5b6c8a070179
   languageName: node
   linkType: hard
 
