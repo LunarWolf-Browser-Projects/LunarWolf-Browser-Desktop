@@ -21,6 +21,7 @@
     "@types/electron": "^1.6.12",
     "@types/node": "^22.13.10",
     "css-loader": "^7.1.2",
+    "electron-context-menu": "^4.0.5",
     "progress": "^2.0.3",
     "style-loader": "^4.0.0",
     "ts-loader": "^9.5.2",
