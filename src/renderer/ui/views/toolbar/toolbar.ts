@@ -2,6 +2,7 @@ import { BrowserWindow, WebContentsView } from 'electron';
 import { getToolbarStyles } from './toolbarstyle';
 import * as path from 'path';
 import * as fs from 'fs';
+import { createOptionsMenu } from '../toolmenuoptions/toolmenuoptions';
 
 export function createToolbar(mainWindow: BrowserWindow): WebContentsView {
     const toolbarHeight = 37; // Height of the toolbar
@@ -95,9 +96,8 @@ export function createToolbar(mainWindow: BrowserWindow): WebContentsView {
                 }
             });
 
-            // TODO: add functionality
             document.getElementById('optionsButton').addEventListener('click', () => {
-                // Placeholder for future functionality
+                window.electronToolbarAPI.openOptionsMenu();
             });
         `);
 

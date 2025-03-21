@@ -24,6 +24,10 @@ contextBridge.exposeInMainWorld('electronToolbarAPI', {
     console.log('Sending navigate-to:', url);
     ipcRenderer.send('navigate-to', url);
   },
+  openOptionsMenu: () => {
+    console.log('Sending open-options-menu');
+    ipcRenderer.send('open-options-menu');
+  },
   onUpdateNavigationButtons: (callback: (event: IpcRendererEvent, state: { canGoBack: boolean, canGoForward: boolean }) => void) => {
     console.log('Listening for navigation button updates');
     ipcRenderer.on('update-navigation-buttons', callback);

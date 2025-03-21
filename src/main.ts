@@ -1,7 +1,8 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
+import { app, BrowserWindow, ipcMain, Menu } from 'electron';
 import * as path from 'path';
 import { readFileSync } from 'fs';
 import { createWebContentsView, selectWebContentsView, closeWebContentsView, navigateBack, navigateForward, navigateRefresh, navigateTo } from './renderer/ui/views/browserapp/browserapp';
+import { createOptionsMenu } from './renderer/ui/views/toolmenuoptions/toolmenuoptions';
 
 let mainWindow: BrowserWindow;
 
@@ -125,6 +126,12 @@ function createWindow() {
     if (activeTab) {
       activeTab.webContents.send('window-unmaximized');
     }
+  });
+
+  // IPC handler to open the options menu
+  ipcMain.on('open-options-menu', () => {
+    const optionsMenu = createOptionsMenu(mainWindow);
+    optionsMenu.popup({ window: mainWindow });
   });
 }
 
